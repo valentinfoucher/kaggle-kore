@@ -1,4 +1,4 @@
-#!/Users/valentinfoucher/Projects/Kore/venv/bin/python3.9
+#!/Users/imac/Projects/kaggle-kore/kore-python/venv/bin/python3.9
 # -*- coding: utf-8 -*-
 import re
 import sys

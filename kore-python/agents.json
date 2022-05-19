@@ -1,0 +1,29 @@
+{
+    "agents": [
+        {
+            "name": "random",
+            "type": "default",
+            "source": "random"
+        },
+        {
+            "name": "miner",
+            "type": "default",
+            "source": "miner"
+        },
+        {
+            "name": "do_nothing",
+            "type": "default",
+            "source": "do_nothing"
+        },
+        {
+            "name": "balanced",
+            "type": "default",
+            "source": "do_nothing"
+        },
+        {
+            "name": "attacker",
+            "type": "default",
+            "source": "attacker"
+        }
+    ]
+}

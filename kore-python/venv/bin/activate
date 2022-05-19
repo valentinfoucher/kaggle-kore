@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/Users/valentinfoucher/Projects/Kore/venv"
+VIRTUAL_ENV="/Users/imac/Projects/kaggle-kore/kore-python/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

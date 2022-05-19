@@ -29,7 +29,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/valentinfoucher/Projects/Kore/venv"
+set -gx VIRTUAL_ENV "/Users/imac/Projects/kaggle-kore/kore-python/venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH
