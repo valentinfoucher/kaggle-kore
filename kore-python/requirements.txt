@@ -2,3 +2,4 @@ kaggle-environments
 IPython
 python-logstash
 python-logstash-async
+matplotlib
