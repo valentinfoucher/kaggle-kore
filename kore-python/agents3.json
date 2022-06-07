@@ -1,0 +1,14 @@
+{
+    "agents": [
+        {
+            "name": "basic_agent_random_routes_1",
+            "type": "script",
+            "source": "basic_agent_random_routes_1.py"
+        },
+        {
+            "name": "random",
+            "type": "default",
+            "source": "random"
+        }
+    ]
+}

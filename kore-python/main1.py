@@ -12,11 +12,7 @@ import requests
 import pickle
 
 import numpy as np
-import matplotlib
-import matplotlib.animation
-import matplotlib.patheffects
-import matplotlib.pyplot as plt
-import IPython.display
+
 
 import kaggle_environments
 
@@ -257,194 +253,6 @@ class KoreMatch():
         self.away_mining_rates = calculate_mining_rates(
             self.kore_amount_matrices, self.away_fleetsize_matrices)
 
-        self.home_spawing_costs = [-10 * sum(int(action.split("_")[1]) for action in actions.values()
-                                             if action.startswith("SPAWN")) for actions in self.home_actions]
-        self.away_spawing_costs = [-10 * sum(int(action.split("_")[1]) for action in actions.values()
-                                             if action.startswith("SPAWN")) for actions in self.away_actions]
-
-        self.home_launch_counts = [[int(action.split("_")[1]) for action in actions.values() if action.startswith("LAUNCH")]
-                                   for actions in self.home_actions]
-        self.away_launch_counts = [[int(action.split("_")[1]) for action in actions.values() if action.startswith("LAUNCH")]
-                                   for actions in self.away_actions]
-        self.home_launch_plans = [[(action.split("_")[2]) for action in actions.values() if action.startswith("LAUNCH")]
-                                  for actions in self.home_actions]
-        self.away_launch_plans = [[(action.split("_")[2]) for action in actions.values() if action.startswith("LAUNCH")]
-                                  for actions in self.away_actions]
-
-        self.home_combat_diffs = [(a2+b2-a1-b1)-x-y for x, y, a1, b1, a2, b2 in
-                                  zip(self.home_mining_rates[1:], self.home_spawing_costs[1:], self.home_kore_carried, self.home_kore_stored,
-                                      self.home_kore_carried[1:], self.home_kore_stored[1:])]
-        self.away_combat_diffs = [(a2+b2-a1-b1)-x-y for x, y, a1, b1, a2, b2 in
-                                  zip(self.away_mining_rates[1:], self.away_spawing_costs[1:], self.away_kore_carried, self.away_kore_stored,
-                                      self.away_kore_carried[1:], self.away_kore_stored[1:])]
-
-        self.home_kore_asset_sums = 500*np.array(list(map(len, self.home_shipyards))) \
-            + 10*np.array(self.home_ship_standby) + 10*np.array(self.home_ship_launched) \
-            + np.array(self.home_kore_stored) + \
-            np.array(self.home_kore_carried)
-        self.away_kore_asset_sums = 500*np.array(list(map(len, self.away_shipyards))) \
-            + 10*np.array(self.away_ship_standby) + 10*np.array(self.away_ship_launched) \
-            + np.array(self.away_kore_stored) + \
-            np.array(self.away_kore_carried)
-
-    def plot_statistics_kore(self):
-        plt.figure(figsize=(15, 5))
-        plt.plot(self.home_kore_stored, label=self.home_agent +
-                 " (stored)", color="blue", linestyle="dotted")
-        plt.plot(self.away_kore_stored, label=self.away_agent +
-                 " (stored)", color="red", linestyle="dotted")
-        plt.plot(self.home_kore_carried, label=self.home_agent +
-                 " (carried)", color="blue")
-        plt.plot(self.away_kore_carried, label=self.away_agent +
-                 " (carried)", color="red")
-        plt.title("Kore carried and stored over time")
-        plt.xlim(-20, 400+20)
-        plt.legend()
-        plt.show()
-
-    def plot_statistics_shipyards(self):
-        plt.figure(figsize=(15, 4))
-        plt.stairs(list(map(len, self.home_shipyards)),
-                   label=self.home_agent, lw=1.5, baseline=None, color="blue")
-        plt.stairs(list(map(len, self.away_shipyards)),
-                   label=self.away_agent, lw=1.5, baseline=None, color="red")
-        plt.title("Number of shipyards over time")
-        plt.xlim(-20, 400+20)
-        plt.legend()
-        plt.show()
-
-    def plot_statistics_ships(self):
-        plt.figure(figsize=(15, 5))
-        plt.stairs(self.home_ship_standby, label=self.home_agent +
-                   " (standby)", baseline=None, color="blue")
-        plt.stairs(self.away_ship_standby, label=self.away_agent +
-                   " (standby)", baseline=None, color="red")
-        plt.stairs(self.home_ship_launched, label=self.home_agent +
-                   " (launched)", baseline=None, color="blue", linestyle="dotted")
-        plt.stairs(self.away_ship_launched, label=self.away_agent +
-                   " (launched)", baseline=None, color="red", linestyle="dotted")
-        plt.title("Ships standby and launched over time")
-        plt.xlim(-20, 400+20)
-        plt.legend()
-        plt.show()
-
-    def plot_statistics_kore_rates(self):
-        plt.figure(figsize=(15, 5))
-        plt.plot(self.home_mining_rates, label=self.home_agent +
-                 " (mining)", color="blue")
-        plt.plot(self.away_mining_rates, label=self.away_agent +
-                 " (mining)", color="red")
-        plt.stairs(self.home_spawing_costs, label=self.home_agent +
-                   " (spawning)", baseline=None, color="blue")
-        plt.stairs(self.away_spawing_costs, label=self.away_agent +
-                   " (spawning)", baseline=None, color="red")
-        plt.title("Kore change rates over time")
-        plt.xlim(-20, 400+20)
-        plt.legend()
-        plt.show()
-
-    def plot_statistics_combat_diffs(self):
-        plt.figure(figsize=(15, 5))
-        plt.stairs(self.home_combat_diffs, label=self.home_agent +
-                   "(combat)", baseline=None, color="blue")
-        plt.stairs(self.away_combat_diffs, label=self.away_agent +
-                   "(combat)", baseline=None, color="red")
-        plt.title("Kore combat diffs over time")
-        plt.xlim(-20, 400+20)
-        plt.legend()
-        plt.show()
-
-    def plot_statistics_asset_sums(self):
-        plt.figure(figsize=(15, 3))
-        plt.stairs(self.home_kore_asset_sums, label=self.home_agent,
-                   baseline=None, color="blue")
-        plt.stairs(self.away_kore_asset_sums, label=self.away_agent,
-                   baseline=None, color="red")
-        plt.title("Value of assets in terms of Kore over time")
-        plt.xlim(-20, 400+20)
-        plt.legend()
-        plt.show()
-
-    def plot_statistics_launch_sizes(self):
-        display_limit = 100
-        limits = [1, 2, 3, 5, 8, 13, 21, 34, 55]
-
-        plt.figure(figsize=(15, 6))
-        for limit in limits:
-            plt.axhline(limit, color="gainsboro", zorder=0)
-            plt.axhline(-limit, color="gainsboro", zorder=0)
-
-        home_xpts, home_ypts = [], []
-        home_xpts_extra, home_ypts_extra = [], []
-        for turn_idx, (launch_counts, launch_plans) in enumerate(zip(self.home_launch_counts, self.home_launch_plans)):
-            for launch_count, launch_plan in zip(launch_counts, launch_plans):
-                _, _, is_cyclic = extract_flight_plan(0, 0, 0, launch_plan)
-                if "C" in launch_plan:
-                    home_xpts_extra.append(turn_idx)
-                    home_ypts_extra.append(launch_count)
-                    continue
-                home_xpts.append(turn_idx)
-                home_ypts.append(launch_count)
-        plt.scatter(home_xpts, home_ypts, color="blue",
-                    s=4, label=self.home_agent)
-        plt.scatter(home_xpts_extra, home_ypts_extra, color="red", s=7)
-
-        away_xpts, away_ypts = [], []
-        away_xpts_extra, away_ypts_extra = [], []
-        for turn_idx, (launch_counts, launch_plans) in enumerate(zip(self.away_launch_counts, self.away_launch_plans)):
-            for launch_count, launch_plan in zip(launch_counts, launch_plans):
-                _, _, is_cyclic = extract_flight_plan(0, 0, 0, launch_plan)
-                if "C" in launch_plan:
-                    away_xpts_extra.append(turn_idx)
-                    away_ypts_extra.append(-launch_count)
-                    continue
-                away_xpts.append(turn_idx)
-                away_ypts.append(-launch_count)
-        plt.scatter(away_xpts, away_ypts, color="red",
-                    s=4, label=self.away_agent)
-        plt.scatter(away_xpts_extra, away_ypts_extra, color="blue", s=7)
-
-        plt.title("Launch sizes over time")
-        plt.xlim(-20, 400+20)
-        plt.yscale('symlog', linthresh=9)
-        plt.yticks([-x for x in limits[2:]] + limits[2:],
-                   [-x for x in limits[2:]] + limits[2:])
-        plt.legend()
-        plt.show()
-
-    def plot_statistics_launch_plan_shapes(self):
-        plt.figure(figsize=(15, 3))
-        xpts = []
-        ypts = []
-
-        for turn_idx, launch_plans in enumerate(kore_match.home_launch_plans):
-            for launch_plan in launch_plans:
-                plan_class, target_x, target_y, polarity, construct = fleetplan_matching(
-                    launch_plan)
-                xpts.append(turn_idx)
-                ypts.append(int(plan_class) + np.random.randn()/10)
-
-        plt.scatter(xpts, ypts, color="blue", s=4, label=self.home_agent)
-
-        xpts = []
-        ypts = []
-
-        for turn_idx, launch_plans in enumerate(kore_match.away_launch_plans):
-            for launch_plan in launch_plans:
-                plan_class, target_x, target_y, polarity, construct = fleetplan_matching(
-                    launch_plan)
-                xpts.append(turn_idx)
-                ypts.append(int(plan_class) + np.random.randn()/10)
-
-        plt.scatter(xpts, ypts, color="red", s=4, label=self.away_agent)
-
-        plt.title("Distribution of flight plans classes over time")
-        plt.xlim(-20, 400+20)
-        plt.yticks([e.value for e in FlightPlanClass],
-                   [e.name for e in FlightPlanClass])
-        plt.legend()
-        plt.show()
-
     def result(self):
         duration = len(self.match_info)
         print('duration '+str(duration))
@@ -475,19 +283,24 @@ for pair in pairs:
     game_name = pair[0]['name']+'-'+pair[1]['name']
     print(game_name)
     pair[0]['source'], pair[1]['source']
-    env.run([pair[0]['source'], pair[1]['source']])
+    agent_home = pair[0]['source'] if pair[0]['type'] == "default" else "./agents/"+pair[0]['source']
+    agent_away = pair[1]['source'] if pair[1]['type'] == "default" else "./agents/"+pair[1]['source']
+    print(agent_home)
+    print(agent_away)
+    env.run([agent_home, agent_away])
     # Render an html ipython replay of the tictactoe game.
     output = env.render(mode="html")
     with open("games/"+game_name+".html", "w") as file:
         file.write(output)
-    output = env.render(mode="json")
-    with open("games/"+game_name+".json", "w") as file:
-        file.write(output)
+    # output = env.render(mode="json")
+    # with open("games/"+game_name+".json", "w") as file:
+    #     file.write(output)
     kore_match = KoreMatch(env.steps)
     (winner, duration) = kore_match.result()
     winner_name = home if winner == 'home' else away
     looser_name = away if winner == 'home' else home
     print('winner ', winner_name, ' looser ', looser_name)
+    print(" ")
     # add extra field to logstash message
     extra = {
         'agentName': winner_name,

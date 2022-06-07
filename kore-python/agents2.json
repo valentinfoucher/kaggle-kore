@@ -1,0 +1,44 @@
+{
+    "agents": [
+        {
+            "name": "basic_agent_random_routes_1",
+            "type": "script",
+            "source": "basic_agent_random_routes_1.py"
+        },
+        {
+            "name": "basic_agent_random_choice",
+            "type": "script",
+            "source": "basic_agent_random_routes.py"
+        },
+        {
+            "name": "basic_agent",
+            "type": "script",
+            "source": "basic_agent.py"
+        },
+        {
+            "name": "random",
+            "type": "default",
+            "source": "random"
+        },
+        {
+            "name": "miner",
+            "type": "default",
+            "source": "miner"
+        },
+        {
+            "name": "do_nothing",
+            "type": "default",
+            "source": "do_nothing"
+        },
+        {
+            "name": "attacker",
+            "type": "default",
+            "source": "attacker"
+        },
+        {
+            "name": "starter",
+            "type": "script",
+            "source": "starter.py"
+        }
+    ]
+}
