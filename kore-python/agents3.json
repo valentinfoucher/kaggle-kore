@@ -6,9 +6,9 @@
             "source": "basic_agent_random_routes_1.py"
         },
         {
-            "name": "random",
-            "type": "default",
-            "source": "random"
+            "name": "miner_perso",
+            "type": "script",
+            "source": "miner_perso.py"
         }
     ]
 }
