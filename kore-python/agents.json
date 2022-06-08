@@ -1,6 +1,16 @@
 {
     "agents": [
         {
+            "name": "miner4",
+            "type": "script",
+            "source": "miner4.py"
+        },
+        {
+            "name": "miner3",
+            "type": "script",
+            "source": "miner3.py"
+        },
+        {
             "name": "miner2",
             "type": "script",
             "source": "miner2.py"

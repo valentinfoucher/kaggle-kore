@@ -9,11 +9,48 @@ import math
 possible_sizes_fleet = [2, 3, 5, 8, 13, 21, 34]
 
 
+def process_direction(pos, direction):
+    (x, y) = pos
+    if direction == 'N':
+        return (x, (y+1) % 21)
+    if direction == 'S':
+        return (x, (y-1) % 21)
+    if direction == 'E':
+        return ((x+1) % 21, y)
+    else:
+        return ((x-1) % 21, y)
+
+
+def process_flight_plan(pos_start, flight_plan):
+    (x_start, y_start) = pos_start
+    route = []
+    current_dir = flight_plan[0]
+    current_pos = process_direction((x_start, y_start), current_dir)
+    route.append(current_pos)
+    for instruction in flight_plan[1:]:
+        if instruction in ['N', 'S', 'E', 'W']:
+            current_dir = instruction
+            current_pos = process_direction(current_pos, current_dir)
+            route.append(current_pos)
+        else:
+            for i in range(int(instruction)):
+                current_pos = process_direction(current_pos, current_dir)
+                route.append(current_pos)
+    return route
+
+
+def compute_kore_route(kore_map_dict, route):
+    total_kore = 0
+    for pos in route:
+        total_kore += kore_map_dict[pos].kore
+    return total_kore
+
+
 def getRandomInt(min, max):
     return random.randint(min, max)
 
 
-def launch_rectangle_ship(shipyard, board):
+def random_rectangle_flight_plan(board):
     turn = board.step
     max_length = min(1+turn//20, 9)
     gap1 = getRandomInt(0, max_length)
@@ -29,12 +66,31 @@ def launch_rectangle_ship(shipyard, board):
         nextDir2].to_char() + str(gap1)
     nextDir3 = (nextDir2 + 1) % 4
     flightPlan += Direction.list_directions()[nextDir3].to_char()
+    return flightPlan
 
+
+def launch_rectangle_ship(shipyard, board):
+    # turn = board.step
+    # max_length = min(1+turn//20, 9)
+    # gap1 = getRandomInt(0, max_length)
+    # gap2 = getRandomInt(0, max_length)
+    # startDir = getRandomInt(0, 3)
+    # flightPlan = Direction.list_directions(
+    # )[startDir].to_char() + str(gap1)
+    # nextDir = (startDir + 1) % 4
+    # flightPlan += Direction.list_directions(
+    # )[nextDir].to_char() + str(gap2)
+    # nextDir2 = (nextDir + 1) % 4
+    # flightPlan += Direction.list_directions()[
+    #     nextDir2].to_char() + str(gap1)
+    # nextDir3 = (nextDir2 + 1) % 4
+    # flightPlan += Direction.list_directions()[nextDir3].to_char()
+    flight_plan = random_rectangle_flight_plan(board)
     fleet_size = max(
         [s for s in possible_sizes_fleet if s <= shipyard.ship_count])
 
     action = ShipyardAction.launch_fleet_with_flight_plan(
-        fleet_size, flightPlan)
+        fleet_size, flight_plan)
     shipyard.next_action = action
 
 

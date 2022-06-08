@@ -126,7 +126,7 @@ def agent(obs, config):
                 shipyard.next_action = action
 
         elif(shipyard.ship_count >= 21):
-            launch_best_random_rectangle_ship(shipyard, board, 100)
+            launch_best_random_rectangle_ship(shipyard, board, 10)
 
         elif(remainingKore > board.configuration.spawn_cost * shipyard.max_spawn):
             remainingKore -= board.configuration.spawn_cost
