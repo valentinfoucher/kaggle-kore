@@ -1,6 +1,71 @@
 {
     "agents": [
         {
+            "name": "miner20",
+            "type": "script",
+            "source": "miner20.py"
+        },
+        {
+            "name": "miner19",
+            "type": "script",
+            "source": "miner19.py"
+        },
+        {
+            "name": "miner17",
+            "type": "script",
+            "source": "miner17.py"
+        },
+        {
+            "name": "miner16",
+            "type": "script",
+            "source": "miner16.py"
+        },
+        {
+            "name": "miner15",
+            "type": "script",
+            "source": "miner15.py"
+        },
+        {
+            "name": "miner14",
+            "type": "script",
+            "source": "miner14.py"
+        },
+        {
+            "name": "miner13",
+            "type": "script",
+            "source": "miner13.py"
+        },
+        {
+            "name": "miner12",
+            "type": "script",
+            "source": "miner12.py"
+        },
+        {
+            "name": "miner11",
+            "type": "script",
+            "source": "miner11.py"
+        },
+        {
+            "name": "miner8",
+            "type": "script",
+            "source": "miner8.py"
+        },
+        {
+            "name": "miner7",
+            "type": "script",
+            "source": "miner7.py"
+        },
+        {
+            "name": "miner6",
+            "type": "script",
+            "source": "miner6.py"
+        },
+        {
+            "name": "miner5",
+            "type": "script",
+            "source": "miner5.py"
+        },
+        {
             "name": "miner4",
             "type": "script",
             "source": "miner4.py"
@@ -9,46 +74,6 @@
             "name": "miner3",
             "type": "script",
             "source": "miner3.py"
-        },
-        {
-            "name": "miner2",
-            "type": "script",
-            "source": "miner2.py"
-        },
-        {
-            "name": "miner_perso",
-            "type": "script",
-            "source": "miner_perso.py"
-        },
-        {
-            "name": "miner1",
-            "type": "script",
-            "source": "miner1.py"
-        },
-        {
-            "name": "basic_agent_random_routes_1",
-            "type": "script",
-            "source": "basic_agent_random_routes_1.py"
-        },
-        {
-            "name": "basic_agent_random_choice",
-            "type": "script",
-            "source": "basic_agent_random_routes.py"
-        },
-        {
-            "name": "basic_agent",
-            "type": "script",
-            "source": "basic_agent.py"
-        },
-        {
-            "name": "miner",
-            "type": "default",
-            "source": "miner"
-        },
-        {
-            "name": "attacker",
-            "type": "default",
-            "source": "attacker"
         }
     ]
 }

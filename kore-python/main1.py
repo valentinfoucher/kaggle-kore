@@ -285,8 +285,8 @@ for pair in pairs:
     pair[0]['source'], pair[1]['source']
     agent_home = pair[0]['source'] if pair[0]['type'] == "default" else "./agents/"+pair[0]['source']
     agent_away = pair[1]['source'] if pair[1]['type'] == "default" else "./agents/"+pair[1]['source']
-    print(agent_home)
-    print(agent_away)
+    # print(agent_home)
+    # print(agent_away)
     env.run([agent_home, agent_away])
     # Render an html ipython replay of the tictactoe game.
     output = env.render(mode="html")
